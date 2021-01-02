@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const db = require("./db/db.json");
+const db = require("../../../db/db.json");
 const { json } = require("express");
 
 // setting up Express App
@@ -16,15 +16,15 @@ app.use(express.static("public"));
 
 // Routes
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    res.sendFile(path.join(__dirname, "../../index.html"));
 });
 
 app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/notes.html"));
+    res.sendFile(path.join(__dirname, "../../notes.html"));
 });
 
 app.get("/api/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "db/db.json"));
+    res.sendFile(path.join(__dirname, db));
     fs.readFile(".db/db.json", "utf8", (err, data) => {
         if (err) {
             throw err;
@@ -38,12 +38,12 @@ app.post("/api/notes", (req, res) => {
     const notes = req.body;
     notes.id = req.body.title;
 
-    let notesInput = fs.readFile("./db/db.json", "utf8", (err, data) => {
+    let notesInput = fs.readFile(db, "utf8", (err, data) => {
         if (err) throw err;
         const parse = JSON.parse(data);
         parse.push(notes);
 
-        fs.writeFile("./db/db.json", JSON.stringify(parse), err => {
+        fs.writeFile(db, JSON.stringify(parse), err => {
             if (err) throw err;
             res.json(notes);
         });
@@ -52,7 +52,7 @@ app.post("/api/notes", (req, res) => {
 
 app.delete("/api/notes/:id", (req, res) => {
     //reading notes in the db.json
-    fs.readFile("./db/db.json", "utf8", (err, data) => {
+    fs.readFile(db, "utf8", (err, data) => {
         if (err) throw err;
 
         const jsonParse = JSON.parse(data);
