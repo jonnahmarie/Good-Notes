@@ -16,13 +16,19 @@ module.exports = app => {
 
         // post API route
         app.post("/api/notes", (req, res) => {
-            let newNote = req.body;
-            notes.push(newNote);
-            
-            fs.writeFile("./db/db.json", "utf8", JSON.stringify(notes), err => {
+            const notes = req.body;
+            notes.id = req.body.title;
+
+            fs.readFile("./db/db.json", "utf8", (err, data) => {
                 if (err) throw err;
-                return true;
-            });
+                const json = JSON.parse(data);
+                json.push(notes);
+
+                fs.writeFile("./db/db.json", JSON.stringify(json), err => {
+                    if (err) throw err;
+                    res.json(notes);
+                })
+            })
         });
 
         // gets note with id
