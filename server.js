@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // require route file
-require("/apiroutes")(app);
-require("/htmlroutes")(app);
+require("./apiroutes")(app);
+require("./htmlroutes")(app);
 
 // starts the server to begin listening
 app.listen(PORT, () => {
