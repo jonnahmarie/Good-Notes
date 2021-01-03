@@ -1,10 +1,8 @@
 // dependencies
 const fs = require("fs");
-const router = require("express").Router();
 const path = require("path");
 
 module.exports = app => {
-
     fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         const notes = JSON.parse(data);
@@ -23,6 +21,7 @@ module.exports = app => {
                 if (err) throw err;
                 const json = JSON.parse(data);
                 json.push(notes);
+                // console.log("Added new note to list")
 
                 fs.writeFile("./db/db.json", JSON.stringify(json), err => {
                     if (err) throw err;
@@ -31,7 +30,7 @@ module.exports = app => {
             })
         });
 
-        // gets note with id
+        // // gets note with id
         app.get("/api/notes/:id", (req, res) => {
             res.json(notes[req.params.id]);
         });
@@ -52,5 +51,5 @@ module.exports = app => {
                 })
             })
         });
-    })
+    });
 };
