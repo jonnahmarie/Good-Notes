@@ -20,7 +20,7 @@ module.exports = app => {
             let newNote = req.body;
             notes.push(newNote);
             
-            fs.writeFile(db, JSON.stringify(notes), err => {
+            fs.writeFile(db, JSON.stringify(notes, null, 1), err => {
                 if (err) throw err;
                 return true;
             });
@@ -35,7 +35,7 @@ module.exports = app => {
         app.delete("/api/notes/:id", (req, res) => {
             notes.splice(req.params.id, 1);
             
-            fs.writeFile(db, JSON.stringify(notes), err => {
+            fs.writeFile(db, JSON.stringify(notes, null, 2), err => {
                 if (err) throw err;
                 console.log("Deleted note")
             })
