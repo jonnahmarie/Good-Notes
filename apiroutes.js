@@ -4,9 +4,8 @@ const router = require("express").Router();
 const path = require("path");
 
 module.exports = app => {
-    const db = path.join("./db/db.json", "utf8");
 
-    fs.readFile(db, (err, data) => {
+    fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         const notes = JSON.parse(data);
 
@@ -20,7 +19,7 @@ module.exports = app => {
             let newNote = req.body;
             notes.push(newNote);
             
-            fs.writeFile(db, JSON.stringify(notes, null, 1), err => {
+            fs.writeFile("./db/db.json", "utf8", JSON.stringify(notes), err => {
                 if (err) throw err;
                 return true;
             });
@@ -33,12 +32,19 @@ module.exports = app => {
 
         // deletes note with id
         app.delete("/api/notes/:id", (req, res) => {
-            notes.splice(req.params.id, 1);
-            
-            fs.writeFile(db, JSON.stringify(notes, null, 2), err => {
+            fs.readFile("./db/db.json", "utf8", (err, data) => {
                 if (err) throw err;
-                console.log("Deleted note")
+
+                const json = JSON.parse(data);
+                const deleteId = json.find(newNote => newNote.id === req.params.id);
+
+                const idIndex = json.indexOf(deleteId);
+                json.splice(idIndex, 1);
+                fs.writeFile("./db/db.json", JSON.stringify(json), (err, data) => {
+                    if (err) throw err;
+                    res.json(json);
+                })
             })
         });
     })
-}
+};
