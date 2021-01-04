@@ -1,5 +1,6 @@
 // dependencies
 const fs = require("fs");
+const path = require("path");
 
 module.exports = (app) => {
     let readNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
@@ -19,11 +20,15 @@ module.exports = (app) => {
     });
 
     // delete API route by ID
-    app.delete("/api/notes:id", (req, res) => {
-        const id = req.params.id;
-        const deleteId = readNotes.filter((readNotes) => readNotes.id !== id);
-        fs.writeFileSync("./db/db.json", JSON.stringify(deleteId));
-        res.send(200);
+    app.delete("/api/notes/:id", (req, res) => {
+        // const id = req.params.id;
+        // const deleteId = readNotes.filter((readNotes) => readNotes.id !== id);
+        // fs.writeFileSync("./db/db.json", JSON.stringify(deleteId));
+        // res.send("200");
+        const deleteId = req.params.id;
+        readNotes.splice(deleteId, 1);
+        fs.writeFileSync(path.join(__dirname, "./db/db.json"), JSON.stringify(readNotes));
+        res.json(req.body);
     });
 };
 
