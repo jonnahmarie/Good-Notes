@@ -1,14 +1,25 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Description This is an application that enables a user to create and save notes AND view and delete those saved notes. This project made use of the Node.js and Express.js in the backend to support a pre-built frontend application.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonnahmarie/Good-Notes.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/jonnahmarie/Good-Notes/issues"
+  },
+  "homepage": "https://github.com/jonnahmarie/Good-Notes#readme"
 }
