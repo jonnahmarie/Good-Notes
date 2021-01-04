@@ -1,8 +1,8 @@
-const $noteTitle = $(".note-title");
-const $noteText = $(".note-textarea");
-const $saveNoteBtn = $(".save-note");
-const $newNoteBtn = $(".new-note");
-const $noteList = $(".list-container .list-group");
+var $noteTitle = $(".note-title");
+var $noteText = $(".note-textarea");
+var $saveNoteBtn = $(".save-note");
+var $newNoteBtn = $(".new-note");
+var $noteList = $(".list-container .list-group");
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
@@ -11,7 +11,7 @@ let activeNote = {};
 const getNotes = () => {
   return $.ajax({
     url: "/api/notes",
-    method: "GET",
+    method: "GET"
   });
 };
 
@@ -20,7 +20,7 @@ const saveNote = (note) => {
   return $.ajax({
     url: "/api/notes",
     data: note,
-    method: "POST",
+    method: "POST"
   });
 };
 
@@ -28,7 +28,7 @@ const saveNote = (note) => {
 const deleteNote = (id) => {
   return $.ajax({
     url: "api/notes/" + id,
-    method: "DELETE",
+    method: "DELETE"
   });
 };
 
@@ -50,10 +50,10 @@ const renderActiveNote = () => {
 };
 
 // Get the note data from the inputs, save it to the db and update the view
-const handleNoteSave = function () {
+const handleNoteSave = function() {
   const newNote = {
     title: $noteTitle.val(),
-    text: $noteText.val(),
+    text: $noteText.val()
   };
 
   saveNote(newNote).then(() => {
@@ -67,7 +67,9 @@ const handleNoteDelete = function (event) {
   // prevents the click listener for the list from being called when the button inside of it is clicked
   event.stopPropagation();
 
-  const note = $(this).parent(".list-group-item").data();
+  const note = $(this)
+    .parent(".list-group-item")
+    .data();
 
   if (activeNote.id === note.id) {
     activeNote = {};
@@ -80,20 +82,20 @@ const handleNoteDelete = function (event) {
 };
 
 // Sets the activeNote and displays it
-const handleNoteView = function () {
+const handleNoteView = function() {
   activeNote = $(this).data();
   renderActiveNote();
 };
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
-const handleNewNoteView = function () {
+const handleNewNoteView = () => {
   activeNote = {};
   renderActiveNote();
 };
 
 // If a note's title or text are empty, hide the save button
 // Or else show it
-const handleRenderSaveBtn = function () {
+const handleRenderSaveBtn = function() {
   if (!$noteTitle.val().trim() || !$noteText.val().trim()) {
     $saveNoteBtn.hide();
   } else {
